@@ -1,0 +1,1 @@
+options for compling the waves2Foam library with foundation OpenFoam 8

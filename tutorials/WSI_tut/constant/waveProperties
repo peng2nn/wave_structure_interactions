@@ -1,0 +1,96 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version	2.0;
+    format	ascii;
+    class	dictionary;
+    object	waveProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+Lw                  1.25;
+
+Hw                  0.07;
+
+Tw                  0.89;
+
+Lx                  15;
+
+L1                  3.75;
+
+L2                  11.25;
+
+P1                  7;
+
+P2                  8;
+
+P3                  8.5;
+
+P4                  14.5;
+
+UxMean              0;
+
+seaLevel            0.6;
+
+seaLevelAsReference false;
+
+initializationName  INLET;
+
+relaxationNames     ( INLET OUTLET );
+
+INLETCoeffs
+{
+    waveType            stokesFifth;
+    height              0.07;
+    period              0.89;
+    depth               0.6;
+    stokesDrift         0;
+    direction           ( 1 0 0 );
+    Tsoft               0;
+    phi                 0;
+    waveNumber          (4.99983 0 0);
+    omega               7.05976;
+
+    relaxationZone
+    {
+        relaxationScheme    Spatial;
+        relaxationShape     Rectangular;
+        relaxationWeight    Exponential;
+        exponent            4.5;
+        beachType           Empty;
+        relaxType           INLET;
+        startX              ( 0 0.227 0 );
+        endX                ( 3.75 0.291 1.2 );
+        orientation         ( 1 0 0 );
+    }
+}
+
+OUTLETCoeffs
+{
+    waveType            potentialCurrent;
+    U                   ( 0 0 0 );
+    Tsoft               2;
+
+    relaxationZone
+    {
+        relaxationScheme    Spatial;
+        relaxationShape     Rectangular;
+        relaxationWeight    Exponential;
+        exponent            4.5;
+        beachType           Empty;
+        relaxType           OUTLET;
+        startX              ( 11.25 0.227 0 );
+        endX                ( 15 0.291 1.2 );
+        orientation         ( 1 0 0 );
+    }
+}
+
+
+
+// ************************************************************************* //

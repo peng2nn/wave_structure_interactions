@@ -1,0 +1,32 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/dynamicFvMesh/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/sampling/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/lnInclude \
+    -I$(LIB_SRC)/twoPhaseModels/interfaceProperties/lnInclude \
+    -I$(LIB_SRC)/twoPhaseModels/twoPhaseMixture/lnInclude \
+    -I$(LIB_SRC)/twoPhaseModels/twoPhaseMixture/VoF \
+    -I$(LIB_SRC)/MomentumTransportModels/momentumTransportModels/lnInclude \
+    -I$(LIB_SRC)/MomentumTransportModels/incompressible/lnInclude \
+    -I$(LIB_SRC)/twoPhaseModels/immiscibleIncompressibleTwoPhaseMixture/lnInclude \
+    -I$(LIB_SRC)/twoPhaseModels/incompressibleTwoPhaseMixture/lnInclude \
+    -I$(WM_PROJECT_USER_DIR)/src/myLib/waves2Foam/lnInclude \
+    -I$(WAVES_GSL_INCLUDE) 
+
+EXE_LIBS = \
+    -limmiscibleIncompressibleTwoPhaseMixture \
+    -linterfaceProperties \
+    -lmomentumTransportModels \
+    -lincompressibleMomentumTransportModels \
+    -lfiniteVolume \
+    -ldynamicFvMesh \
+    -ltopoChangerFvMesh \
+    -lfvOptions \
+    -lmeshTools \
+    -lsampling \
+    -L$(FOAM_USER_LIBBIN) \
+    -lwaves2Foam \
+    -lwaves2FoamProcessing \
+    -L$(WAVES_GSL_LIB) 

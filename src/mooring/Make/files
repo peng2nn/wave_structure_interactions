@@ -1,0 +1,6 @@
+
+myLinearSpring_polyParabolic/myLinearSpring_polyParabolic.C
+
+
+LIB = $(FOAM_USER_LIBBIN)/libwaves2FoamMooring
+

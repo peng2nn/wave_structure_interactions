@@ -1,0 +1,121 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include        "$FOAM_CASE/constant/waveProperties.input";
+Pm              #calc "0.5*$Lx";
+A1              #calc "$Pm+0.1";
+B1              #calc "$Pm+0.06";
+A2              #calc "$Pm-0.1";
+B2              #calc "$Pm-0.06";
+
+dynamicFvMesh   dynamicMotionSolverFvMesh;
+
+motionSolverLibs    (	          	
+	          	"libwaves2FoamMooring.so"
+	          	"libsixDoFRigidBodyMotion.so"
+	        );
+
+motionSolver        sixDoFRigidBodyMotion;
+
+sixDoFRigidBodyMotionCoeffs
+{
+    patches         (FB);
+    innerDistance   0.01;
+    outerDistance   0.5;
+
+    centreOfMass    ($Pm 0.25 0.57);
+
+    mass            0.0553;
+
+   //momentOfInertia   (0.00003685 0.0001132 0.0000885);
+   momentOfInertia   (0.00003685 0.001132 0.0000885);
+
+    report          on;
+    accelerationRelaxation 0.7;
+    //accelerationDamping 0.5;
+
+    solver
+    {
+        //type symplectic;
+        type Newmark;
+        //type CrankNicolson;
+    }
+
+    constraints
+    {
+       
+	    yAxis
+	    {
+		    sixDoFRigidBodyMotionConstraint axis;
+		    axis  (0 1 0);
+	    }
+		
+	    xzPlane
+	    {
+		    sixDoFRigidBodyMotionConstraint plane;
+		    normal  (0 1 0);
+	    }	
+
+   }
+
+    restraints
+    {
+
+	    linearSpring1
+	    {
+		    sixDoFRigidBodyMotionRestraint myLinearSpring_polyParabolic;
+		    anchor ($Pm 0.24 0);
+		    refAttachmentPt ($Pm 0.24 0.56);
+		    stiffness  150;
+		    damping    0;
+		    restLength 0.583;
+	    }
+
+
+	    linearSpring2
+	    {
+		    sixDoFRigidBodyMotionRestraint myLinearSpring_polyParabolic;
+		    anchor ($Pm 0.26 0);
+		    refAttachmentPt ($Pm 0.26 0.56);
+		    stiffness  150;
+		    damping    0;
+		    restLength 0.583;
+	    }
+
+	    linearSpring3
+	    {
+		    sixDoFRigidBodyMotionRestraint myLinearSpring_polyParabolic;
+		    anchor ($A1 0.25 0);
+		    refAttachmentPt ($B1 0.25 0.565);
+		    stiffness  125;
+		    damping    0;
+		    restLength 1;
+	    }
+
+	    linearSpring4
+	    {
+		    sixDoFRigidBodyMotionRestraint myLinearSpring_polyParabolic;
+		    anchor ($A2 0.25 0);
+		    refAttachmentPt ($B2 0.25 0.565);
+		    stiffness  125;
+		    damping    0;
+		    restLength 1;
+	    }
+
+    }
+}
+
+// ************************************************************************* //
